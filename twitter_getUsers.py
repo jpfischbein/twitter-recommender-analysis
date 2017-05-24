@@ -1,11 +1,11 @@
 # Written by Joel Fischbein
-#email account : cmn198twitterbot@gmail.com
-#email password: sentiment
 
 from __future__ import print_function
-from time import sleep
 import twitter
 import csv
+
+#email account : cmn198twitterbot@gmail.com
+#email password: sentiment
 
 CONSUMER_KEY = 'sYdoXdwc2pa1gU5OGRB5aaxXV'
 CONSUMER_SECRET = 'zVCdZyZY5bRzDmXuM9Uu4r6EHonxTonJpbLXA4I4Pzitno3JGM'
@@ -33,10 +33,6 @@ def csv_write(users):
             else:
                 print(user.name)
                 writer.writerow([user.name])
-
-# For stalling till rate limit resets
-def stall(mins):
-    sleep(mins * 60)
 
 def get_followers():
     return api.GetFriends(screen_name=FOLLOWED_USER)

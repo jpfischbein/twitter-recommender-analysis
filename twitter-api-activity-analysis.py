@@ -1,19 +1,12 @@
 # Written by Joel Fischbein
-#email account : cmn198twitterbot@gmail.com
-#email password: sentiment
 
 from __future__ import print_function
-from time import sleep
 import twitter
 import csv
 
-
-# FUNCTIONS FOR BIASING
-# PostRetweet()      for retweeting
-# CreateFavorite()   for liking
-# CreateFriendship() for following
-#   GetUsersSearch()   for acquiring users to follow
-# GetSearch()        for search history biasing (ALSO RETURNS TWEETS FOR LIKING AND RETWEETING)
+# Information for API Authorized Twitter Account
+# email account : cmn198twitterbot@gmail.com
+# email password: sentiment
 
 CONSUMER_KEY = 'sYdoXdwc2pa1gU5OGRB5aaxXV'
 CONSUMER_SECRET = 'zVCdZyZY5bRzDmXuM9Uu4r6EHonxTonJpbLXA4I4Pzitno3JGM'
@@ -22,8 +15,6 @@ ACCESS_TOKEN_SECRET = '2CGKePsPEgGYDjdjaydE1LppSOjNt4FFHtluXbKPRd5WK'
 
 SEARCH_TERM = 'delightful'
 SEARCH_TERMS = []
-
-# NUM_CALLS = 0
 
 # Create an Api instance.
 api = twitter.Api(consumer_key=CONSUMER_KEY,
@@ -55,10 +46,6 @@ def csv_write(control, likes, retweets, follows, search):
 
 	fob.writerow({'Control':control, 'Likes':likes, 'Retweets':retweets, 'Follows':follows, 'Search':search})
 
-# For stalling till rate limit resets
-def stall(mins):
-    sleep(mins * 60)
-
 # Likes top 100 tweets from search term then retrieves
 # recommended users and unlikes tweets
 def bias_like():
@@ -80,6 +67,8 @@ def bias_like():
         api.DestroyFavorite(status_id=like.id)
     return user_recs
 
+# **************DOESN'T WORK PROPERLY********************
+# CAN'T RECOGNIZE WHEN A TWEET HAS BEEN RETWEETED ALREADY
 # Retweets top 100 tweets from search term then retrieves
 # recommended users and deletes retweets
 def bias_retweet():
@@ -152,20 +141,13 @@ if __name__ == '__main__':
     print("Acquired unbiased recommendations")
     u_bias_like = bias_like()
     print("Acquired like biased recommendations")
-    u_bias_retweet = bias_retweet()
-    print("Acquired retweet biased recommendations")
     u_bias_follow = bias_follow()
     print("Acquired follow biased recommendations")
     u_bias_search = bias_search()
     print("Acquired search history biased recommendations")
     csv_header()
-    # csv_write(u_unbiased[0].name, u_bias_like[0].name,
-    #           u_bias_retweet[0].name, u_bias_follow[0].name, u_bias_search[0].name)
     for i in range(len(u_unbiased)):
         csv_write(u_unbiased[i].name, u_bias_like[i].name,
                   u_bias_retweet[i].name, u_bias_follow[i].name,
                   u_bias_search[i].name)
     print("Done")
-
-# if __name__ == '__main__':
-#     bias_like()
