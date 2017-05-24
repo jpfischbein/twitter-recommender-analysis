@@ -134,7 +134,7 @@ def readin_searches():
 	# C:\Users\\PycharmProjects\Script
 	# This reads each row.
 	path = '/Users/mhilbert/PycharmProjects/scripts/search.csv'
-	with open(path) as f:
+	with open(path, 'rU') as f:
 		reader = csv.reader(f)
 		for row in reader:
 			searchterms.append(row)
